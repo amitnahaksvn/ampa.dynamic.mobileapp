@@ -1,0 +1,21 @@
+# iOS/macOS - CocoaPods
+ios/Pods/
+ios/Flutter/Flutter.framework
+ios/Flutter/Generated.xcconfig
+ios/Flutter/App.framework
+ios/.symlinks/
+ios/.generated/
+ios/Runner.xcworkspace/
+ios/Flutter/ephemeral/
+
+macos/Pods/
+macos/Flutter/Flutter.framework
+macos/Flutter/GeneratedPluginRegistrant.swift
+macos/.symlinks/
+macos/.generated/
+macos/Runner.xcworkspace/
+macos/Flutter/ephemeral/
+
+# Ignore the lockfiles if you're not locking pod versions (optional)
+ios/Podfile.lock
+macos/Podfile.lock
