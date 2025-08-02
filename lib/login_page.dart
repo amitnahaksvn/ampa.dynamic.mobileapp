@@ -4,7 +4,7 @@ import 'package:flutter/services.dart' show rootBundle, FilteringTextInputFormat
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'main.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:oktoast/oktoast.dart';
 import 'api_config.dart';
 
 class LoginPage extends StatefulWidget {

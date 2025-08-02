@@ -43,7 +43,9 @@ dependencies:
   firebase_auth: ^4.17.4
   firebase_analytics: ^10.8.5
   flutter_neumorphic_plus: ^3.5.0
-  fluttertoast: ^8.2.4
+  # Replacing fluttertoast with a more compatible toast package
+  # fluttertoast: 8.2.2
+  oktoast: ^3.4.0
   shared_preferences: ^2.5.3
   intl: ^0.20.2
   device_info_plus: ^9.1.1

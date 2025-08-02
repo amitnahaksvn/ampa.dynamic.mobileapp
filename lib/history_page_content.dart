@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'api_config.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:flutter/services.dart';
 import 'navigation_service.dart';
 
@@ -393,12 +393,12 @@ class _HistoryPageContentState extends State<HistoryPageContent> {
               // Copy URL to clipboard
               Clipboard.setData(ClipboardData(text: item['url'] ?? ''));
               Navigator.pop(context);
-              Fluttertoast.showToast(
-                msg: "URL copied to clipboard",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
+              showToast(
+                "URL copied to clipboard",
+                duration: const Duration(seconds: 2),
+                position: ToastPosition.bottom,
                 backgroundColor: Colors.green,
-                textColor: Colors.white,
+                textStyle: const TextStyle(color: Colors.white),
               );
             },
             child: const Text('Copy URL'),

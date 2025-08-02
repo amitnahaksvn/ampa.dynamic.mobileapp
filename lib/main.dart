@@ -18,6 +18,7 @@ import 'element_page.dart';
 import 'navigation_service.dart';
 import 'app_routes.dart';
 import 'share_intent_service.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 // Handle Firebase initialization for both web and mobile
@@ -53,58 +54,60 @@ class MyApp extends StatelessWidget {
     // Get the singleton instance
     final navigationService = NavigationService();
     
-    return MaterialApp(
-      title: 'Dynamic AmPa',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return OKToast(
+      child: MaterialApp(
+        title: 'Dynamic AmPa',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        navigatorKey: navigationService.navigatorKey,
+        initialRoute: '/',
+        onGenerateRoute: (RouteSettings settings) {
+          // A function to handle all routes in the application
+          print('Navigating to: ${settings.name}');
+          
+          // Check if it's one of our content routes and extract the page index
+          int pageIndex = 0;
+          if (settings.name == AppRoutes.archive) {
+            pageIndex = 1;
+          } else if (settings.name == AppRoutes.history) {
+            pageIndex = 2;
+          } else if (settings.name == AppRoutes.element) {
+            pageIndex = 3;
+          } else if (settings.name == AppRoutes.discussion) {
+            pageIndex = 4;
+          } else if (settings.name == AppRoutes.profile) {
+            pageIndex = 5;
+          }
+          
+          // Handle authentication routes
+          if (settings.name == AppRoutes.login) {
+            return MaterialPageRoute(
+              settings: settings,
+              builder: (context) => const LoginPage(),
+            );
+          }
+          
+          // For root route, return the auth handler
+          if (settings.name == '/' || settings.name == AppRoutes.dashboard) {
+            return MaterialPageRoute(
+              settings: settings,
+              builder: (context) => const RootAuthHandler(),
+            );
+          }
+          
+          // For all other content routes, return MyHomePage with the appropriate page index
+          // This ensures we're not creating new instances for each navigation
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (context) => MyHomePage(
+              title: settings.name?.substring(1) ?? 'Home',
+              initialPageIndex: pageIndex,
+            ),
+          );
+        },
       ),
-      navigatorKey: navigationService.navigatorKey,
-      initialRoute: '/',
-      onGenerateRoute: (RouteSettings settings) {
-        // A function to handle all routes in the application
-        print('Navigating to: ${settings.name}');
-        
-        // Check if it's one of our content routes and extract the page index
-        int pageIndex = 0;
-        if (settings.name == AppRoutes.archive) {
-          pageIndex = 1;
-        } else if (settings.name == AppRoutes.history) {
-          pageIndex = 2;
-        } else if (settings.name == AppRoutes.element) {
-          pageIndex = 3;
-        } else if (settings.name == AppRoutes.discussion) {
-          pageIndex = 4;
-        } else if (settings.name == AppRoutes.profile) {
-          pageIndex = 5;
-        }
-        
-        // Handle authentication routes
-        if (settings.name == AppRoutes.login) {
-          return MaterialPageRoute(
-            settings: settings,
-            builder: (context) => const LoginPage(),
-          );
-        }
-        
-        // For root route, return the auth handler
-        if (settings.name == '/' || settings.name == AppRoutes.dashboard) {
-          return MaterialPageRoute(
-            settings: settings,
-            builder: (context) => const RootAuthHandler(),
-          );
-        }
-        
-        // For all other content routes, return MyHomePage with the appropriate page index
-        // This ensures we're not creating new instances for each navigation
-        return MaterialPageRoute(
-          settings: settings,
-          builder: (context) => MyHomePage(
-            title: settings.name?.substring(1) ?? 'Home',
-            initialPageIndex: pageIndex,
-          ),
-        );
-      },
     );
   }
 }
@@ -655,7 +658,7 @@ class _MyHomePageState extends State<MyHomePage> {
             navigationService: _navigationService,
           ),
           Expanded(
-            // Using a Key forces the widget to rebuild when _selectedPage changes
+            // Using a ValueKey forces the widget to rebuild when _selectedPage changes
             key: ValueKey<int>(_selectedPage),
             child: _buildCurrentPageContent(),
           ),

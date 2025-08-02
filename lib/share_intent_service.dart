@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:flutter/material.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'api_config.dart';
@@ -71,12 +71,12 @@ class ShareIntentService {
   Future<void> _processSharedText(String sharedText) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-      Fluttertoast.showToast(
-        msg: "Please login to save shared content",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
+      showToast(
+        "Please login to save shared content",
+        duration: const Duration(seconds: 3),
+        position: ToastPosition.bottom,
         backgroundColor: Colors.red,
-        textColor: Colors.white,
+        textStyle: const TextStyle(color: Colors.white),
       );
       return;
     }
@@ -122,12 +122,12 @@ class ShareIntentService {
       
       if (response.statusCode == 200 || response.statusCode == 201) {
         print("Content saved successfully with status: ${response.statusCode}");
-        Fluttertoast.showToast(
-          msg: "Content saved successfully!",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.BOTTOM,
+        showToast(
+          "Content saved successfully!",
+          duration: const Duration(seconds: 3),
+          position: ToastPosition.bottom,
           backgroundColor: Colors.green,
-          textColor: Colors.white,
+          textStyle: const TextStyle(color: Colors.white),
         );
         
         // Navigate to dashboard
@@ -137,12 +137,12 @@ class ShareIntentService {
         throw Exception("Failed to save shared content: ${response.statusCode} - ${response.body}");
       }
     } catch (e) {
-      Fluttertoast.showToast(
-        msg: "Error saving shared content: $e",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
+      showToast(
+        "Error saving shared content: $e",
+        duration: const Duration(seconds: 3),
+        position: ToastPosition.bottom,
         backgroundColor: Colors.red,
-        textColor: Colors.white,
+        textStyle: const TextStyle(color: Colors.white),
       );
       print("Error processing shared text: $e");
     }
