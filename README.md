@@ -1,1 +1,1 @@
-# ampa.dynamic.mobileapp testing
+# ampa.dynamic.mobileapp 
